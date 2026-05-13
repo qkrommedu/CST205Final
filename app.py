@@ -289,8 +289,8 @@ class PianoPracticeStudio:
                     black_keys_frame,
                     note_name,
                     column,
-                    "#111111",
-                    "black",
+                    "#000000",
+                    "white",
                     2,
                 )
             else:
