@@ -163,7 +163,7 @@ class PianoPracticeStudio:
             command=self.random_background_color,
             font=("Helvetica", 10, "bold"),
             bg="#6fa8dc",
-            fg="white",
+            fg="black",
             relief="flat",
             cursor="hand2",
         )
@@ -218,7 +218,7 @@ class PianoPracticeStudio:
                 command=command,
                 font=("Helvetica", 10, "bold"),
                 bg=color,
-                fg="white",
+                fg="black",
                 activebackground=color,
                 activeforeground="white",
                 padx=10,
@@ -290,7 +290,7 @@ class PianoPracticeStudio:
                     note_name,
                     column,
                     "#111111",
-                    "white",
+                    "black",
                     2,
                 )
             else:
