@@ -18,6 +18,7 @@ import pickle
 import shutil
 import subprocess
 import sys
+import random
 import threading
 import time
 import tkinter as tk
@@ -138,20 +139,39 @@ class PianoPracticeStudio:
         self.root.bind("<KeyPress>", self.handle_keypress)
 
     def build_interface(self):
-        main_frame = tk.Frame(self.root, bg="#f5efe4", padx=20, pady=20)
-        main_frame.pack(fill="both", expand=True)
+        self.main_frame = tk.Frame(self.root, bg="#f5efe4", padx=20, pady=20)
+        self.main_frame.pack(fill="both", expand=True)
+
+        # Added a top frame to hold title and random color background button
+        top_frame = tk.Frame(self.main_frame, bg="#f5efe4")
+        top_frame.pack(fill="x")
 
         title_label = tk.Label(
-            main_frame,
+            top_frame,
             text="Piano Practice Studio",
             font=("Helvetica", 24, "bold"),
             bg="#f5efe4",
             fg="#2d1f12",
         )
-        title_label.pack(anchor="w")
+
+        title_label.pack(side="left")
+
+        # New added intereactive button to change the background color
+        random_button = tk.Button(
+            top_frame,
+            text="Random Color Background",
+            command=self.random_background_color,
+            font=("Helvetica", 10, "bold"),
+            bg="#6fa8dc",
+            fg="white",
+            relief="flat",
+            cursor="hand2",
+        )
+        random_button.pack(side="right", padx=5)
+        
 
         subtitle_label = tk.Label(
-            main_frame,
+            self.main_frame,
             text=(
                 "An intro-Python music project with WAV playback, Pillow visuals, "
                 "and pickle save/load tools."
@@ -164,7 +184,7 @@ class PianoPracticeStudio:
 
         self.banner_image = self.create_banner_image()
         banner_label = tk.Label(
-            main_frame,
+            self.main_frame,
             image=self.banner_image,
             bg="#f5efe4",
             bd=0,
@@ -172,7 +192,7 @@ class PianoPracticeStudio:
         banner_label.pack(fill="x", pady=(0, 16))
 
         controls_frame = tk.LabelFrame(
-            main_frame,
+            self.main_frame,
             text="Recording Controls",
             font=("Helvetica", 12, "bold"),
             bg="#f5efe4",
@@ -209,7 +229,7 @@ class PianoPracticeStudio:
             button.grid(row=0, column=index, padx=6, pady=6, sticky="ew")
             controls_frame.grid_columnconfigure(index, weight=1)
 
-        info_frame = tk.Frame(main_frame, bg="#f5efe4")
+        info_frame = tk.Frame(self.main_frame, bg="#f5efe4")
         info_frame.pack(fill="x", pady=(14, 12))
 
         tk.Label(
@@ -240,7 +260,7 @@ class PianoPracticeStudio:
         ).pack(anchor="w", pady=(8, 0))
 
         piano_frame = tk.LabelFrame(
-            main_frame,
+            self.main_frame,
             text="Piano Keys",
             font=("Helvetica", 12, "bold"),
             bg="#f5efe4",
@@ -292,7 +312,7 @@ class PianoPracticeStudio:
                 4,
             )
 
-        lower_frame = tk.Frame(main_frame, bg="#f5efe4")
+        lower_frame = tk.Frame(self.main_frame, bg="#f5efe4")
         lower_frame.pack(fill="both", expand=True, pady=(16, 0))
 
         recent_notes_frame = tk.LabelFrame(
@@ -382,6 +402,17 @@ class PianoPracticeStudio:
             cursor="hand2",
         )
         button.grid(row=0, column=column, padx=5, pady=5, sticky="nsew")
+
+    # Function for random background color, kept the ranges higher to make it more easier on the eyes(pastel colors)
+    def random_background_color(self):
+        r = random.randint(150, 255)
+        g = random.randint(150, 255)
+        b = random.randint(150, 255)
+
+        random_color = f"#{r:02x}{g:02x}{b:02x}"
+
+        self.root.configure(bg=random_color)
+        self.main_frame.configure(bg=random_color)
 
     def find_shortcut(self, note_name):
         for key_name, mapped_note in KEYBOARD_BINDINGS.items():
